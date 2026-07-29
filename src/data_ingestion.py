@@ -7,11 +7,13 @@ import pandas as pd
 from datetime import datetime
 
 DEFAULT_SCHEMES = {
-    "122639": "Parag Parikh Flexi Cap Fund - Direct Plan - Growth",
-    "118989": "HDFC Mid-Cap Opportunities Fund - Direct Plan - Growth",
-    "119775": "SBI Bluechip Fund - Direct Plan - Growth",
-    "118663": "Nippon India Small Cap Fund - Direct Plan - Growth",
-    "128913": "ICICI Prudential Asset Allocator Fund - Direct Plan - Growth"
+   
+    "125497": "HDFC Top 100 Direct",
+    "119551": "SBI Bluechip",
+    "120503": "ICICI Bluechip",
+    "118632": "Nippon Large Cap",
+    "119092": "Axis Bluechip",
+    "120841": "Kotak Bluechip"
 }
 
 def fetch_scheme_data(scheme_code, force_redownload=False):

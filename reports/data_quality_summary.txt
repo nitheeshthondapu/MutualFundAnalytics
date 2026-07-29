@@ -1,0 +1,14 @@
+DATA QUALITY SUMMARY
+==============================
+Total Schemes: 11
+Total NAV Records: 33520
+NAV Date Range: 2012-12-31 to 2026-07-28
+Validation Status: PASSED
+
+Identified Anomalies:
+- Scheme Code Mismatch: Code 118632 expected 'Nippon Large Cap' but actual name is 'Nippon India Large Cap Fund - Direct Plan Growth Plan - Growth Option'.
+- Scheme Code Mismatch: Code 119092 expected 'Axis Bluechip' but actual name is 'HDFC Money Market Fund - Growth Option - Direct Plan'.
+- Scheme Code Mismatch: Code 119551 expected 'SBI Bluechip' but actual name is 'Aditya Birla Sun Life Banking & PSU Debt Fund  - DIRECT - IDCW'.
+- Scheme Code Mismatch: Code 120503 expected 'ICICI Bluechip' but actual name is 'Axis ELSS Tax Saver Fund - Direct Plan - Growth Option'.
+- Scheme Code Mismatch: Code 120841 expected 'Kotak Bluechip' but actual name is 'quant Mid Cap Fund - Growth Option - Direct Plan'.
+- Scheme Code Mismatch: Code 125497 expected 'HDFC Top 100 Direct' but actual name is 'SBI Small Cap Fund - Direct Plan - Growth'.
