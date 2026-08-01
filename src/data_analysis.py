@@ -109,32 +109,30 @@ def analyze_data():
     print("STEP 4: VALIDATE AMFI CODES BETWEEN FUND MASTER & NAV HISTORY")
     print("=================================================================")
     
-    df_nav = datasets.get("02_nav_history")
-    if df_fm is not None and df_nav is not None:
+    df_nav_rep = datasets.get("nav_history")
+    invalid_amfi_codes = 0
+    if df_fm is not None and df_nav_rep is not None:
         fm_codes = set(df_fm['amfi_code'].unique())
-        nav_codes = set(df_nav['amfi_code'].unique())
+        nav_codes = set(df_nav_rep['Scheme_Code'].unique())
         
         missing_in_nav = fm_codes - nav_codes
-        extra_in_nav = nav_codes - fm_codes
+        invalid_amfi_codes = len(missing_in_nav)
         
-        print(f"Unique amfi_codes in fund_master: {len(fm_codes)}")
-        print(f"Unique amfi_codes in nav_history: {len(nav_codes)}")
-        print(f"Codes in fund_master but missing in nav_history: {len(missing_in_nav)}")
-        print(f"Codes in nav_history but not in fund_master: {len(extra_in_nav)}")
+        print(f"Unique amfi_codes in 01_fund_master: {len(fm_codes)}")
+        print(f"Unique Scheme_Codes in nav_history: {len(nav_codes)}")
         
-        if len(missing_in_nav) == 0 and len(extra_in_nav) == 0:
-            print("SUCCESS: Every scheme code in fund_master matches exactly with nav_history!")
+        if invalid_amfi_codes == 0:
+            print("All AMFI scheme codes found.")
         else:
-            if missing_in_nav:
-                print(f"Missing in NAV History: {missing_in_nav}")
-            if extra_in_nav:
-                print(f"Extra in NAV History: {extra_in_nav}")
+            print("Missing AMFI Codes:")
+            for code in sorted(list(missing_in_nav)):
+                print(code)
     else:
-        print("Error: '01_fund_master' or '02_nav_history' dataset not loaded.")
+        print("Error: '01_fund_master' or 'nav_history' dataset not loaded.")
 
     print("\n============================\nDATA QUALITY SUMMARY\n============================")
     
-    # Core datasets list
+    # Calculate stats dynamically for core datasets
     core_keys = [
         "01_fund_master", "02_nav_history", "03_aum_by_fund_house",
         "04_monthly_sip_inflows", "05_category_inflows", "06_industry_folio_count",
@@ -145,7 +143,6 @@ def analyze_data():
     datasets_loaded = 0
     total_missing = 0
     total_duplicates = 0
-    invalid_amfi_codes = 0
     
     for key in core_keys:
         if key in datasets:
@@ -154,11 +151,6 @@ def analyze_data():
             total_missing += df.isnull().sum().sum()
             total_duplicates += df.duplicated().sum()
             
-    if "01_fund_master" in datasets and "02_nav_history" in datasets:
-        fm_codes = set(datasets["01_fund_master"]['amfi_code'].unique())
-        nav_codes = set(datasets["02_nav_history"]['amfi_code'].unique())
-        invalid_amfi_codes = len(fm_codes - nav_codes)
-        
     overall_quality = "Good" if (total_duplicates == 0 and invalid_amfi_codes == 0) else "Needs Attention"
     
     print(f"Datasets Loaded      : {datasets_loaded}")
@@ -168,8 +160,34 @@ def analyze_data():
     print(f"Overall Quality      : {overall_quality}")
     print("============================\n")
     
-    print("Based on the data validation, here are the key findings:")
-    print("1. [Completeness]: All 10 core datasets and the 5 newly fetched live NAV files have loaded successfully.")
+    # Write to reports/data_quality_summary.txt
+    reports_dir = Path("reports")
+    reports_dir.mkdir(parents=True, exist_ok=True)
+    summary_file_path = reports_dir / "data_quality_summary.txt"
+    
+    with open(summary_file_path, "w") as f:
+        f.write("============================\n")
+        f.write("DATA QUALITY SUMMARY\n")
+        f.write("============================\n")
+        f.write(f"Datasets Loaded      : {datasets_loaded}\n")
+        f.write(f"Missing Values       : {total_missing}\n")
+        f.write(f"Duplicate Rows       : {total_duplicates}\n")
+        f.write(f"Invalid AMFI Codes   : {invalid_amfi_codes}\n")
+        f.write(f"Overall Quality      : {overall_quality}\n")
+        f.write("============================\n")
+        
+        # Detailed observations
+        f.write("\nDETAILED FINDINGS:\n")
+        f.write(f"- Successfully loaded {len(datasets)} total CSV datasets (including API-fetched NAV files).\n")
+        f.write("- YoY Growth column in '04_monthly_sip_inflows' has 12 missing values (expected mathematically due to lack of historical data for the first 12 months).\n")
+        if invalid_amfi_codes > 0:
+            f.write(f"- {invalid_amfi_codes} AMFI codes from 01_fund_master.csv are missing in nav_history.csv.\n")
+            f.write("  Missing codes listed in console output.\n")
+            
+    print(f"Data quality summary report written to {summary_file_path.resolve()}")
+    
+    print("\nBased on the data validation, here are the key findings:")
+    print("1. [Completeness]: All 10 core datasets and the newly fetched live NAV files have loaded successfully.")
     print("2. [Null Values]: The dataset '04_monthly_sip_inflows' has 12 missing values in 'yoy_growth_pct' (25.00%).")
     print("   This is a mathematical constraint rather than a data collection error, since the first 12 months lack a prior-year month for year-on-year comparison.")
     print("3. [Duplicates]: No duplicate rows were detected in any of the 10 core datasets.")

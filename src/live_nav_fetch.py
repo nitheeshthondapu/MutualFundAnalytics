@@ -72,8 +72,8 @@ if __name__ == '__main__':
     raw_data_dir = project_root / 'data' / 'raw'
     
     logger.info("Executing standalone live NAV fetching process...")
-    # The 5 key schemes specified by the user
-    key_schemes = [119551, 120503, 118632, 119092, 120841]
+    # The 6 key schemes specified by the user (including HDFC Top 100: 125497)
+    key_schemes = [125497, 119551, 120503, 118632, 119092, 120841]
     
     success_count = 0
     for code in key_schemes:
