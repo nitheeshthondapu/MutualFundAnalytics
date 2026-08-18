@@ -105,7 +105,7 @@ def get_performance():
 @app.route('/api/scorecard')
 def get_scorecard():
     """Returns top ranked schemes from fund_scorecard.csv."""
-    df = pd.read_csv(project_root / "fund_scorecard.csv")
+    df = pd.read_csv(project_root / "data" / "processed" / "fund_scorecard.csv")
     
     # Filters
     amc = request.args.get('amc', 'All')

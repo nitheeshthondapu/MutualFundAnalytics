@@ -3,7 +3,9 @@ import pandas as pd
 import numpy as np
 
 def test_calculations():
-    db_path = "bluestock_mf.db"
+    from pathlib import Path
+    project_root = Path(__file__).resolve().parent.parent
+    db_path = project_root / "data" / "db" / "bluestock_mf.db"
     conn = sqlite3.connect(db_path)
     
     print("--- Testing fact_nav ---")
