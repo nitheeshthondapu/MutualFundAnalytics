@@ -28,7 +28,9 @@ bluestock_mf_capstone/
 │   ├── schema.sql           # SQLite Star Schema DDL
 │   └── queries.sql          # 10 Analytical SQL Queries
 ├── dashboard/
-│   ├── app.py               # Streamlit Dashboard App (B2)
+│   ├── server.py            # Flask API Server (B2)
+│   ├── templates/
+│   │   └── index.html       # HTML/CSS/JS Dashboard Client (B2)
 │   └── bluestock_mf.pbix    # Power BI Dashboard file template
 ├── reports/
 │   ├── Final_Report.pdf     # 18-page PDF report with embedded charts
@@ -75,36 +77,43 @@ source .venv/bin/activate
 ```
 
 ### 3. Install Dependencies
-Install all required libraries (including pandas, numpy, scipy, plotly, sqlalchemy, streamlit, reportlab, and python-pptx):
+Install all required libraries (including pandas, numpy, scipy, plotly, sqlalchemy, flask, reportlab, and python-pptx):
 ```bash
 pip install -r requirements.txt
-# (Optional) If reportlab and python-pptx are not in the requirements:
-pip install streamlit reportlab python-pptx
+# (Optional) If reportlab, python-pptx, and flask are not in the requirements:
+pip install flask reportlab python-pptx
 ```
 
 ---
 
 ## 🚀 Execution Guide
 
-### 1. Run the ETL Pipeline
-The master ETL script fetches live NAVs, cleans the 10 CSV files (ffill holidays, removes duplicates, validates numeric fields), compiles the SQLite Star Schema database, and loads the data:
+### 1. Master Pipeline Execution (Orchestrates All Steps)
+You can run the entire pipeline—data ingestion, cleaning, metric calculations, report compilation, and slide deck generation—using a single command:
+```bash
+python run_pipeline.py
+```
+
+### 2. Run the ETL Pipeline Separately
+The master ETL script cleans the 10 CSV files, resolves NAV holiday gaps via forward-fill, normalizes investor demographics, compiles the SQLite database, and populates the star schema:
 ```bash
 python scripts/etl_pipeline.py
 ```
 *Output database is created at:* `data/db/bluestock_mf.db`.
 
-### 2. Calculate Quantitative Metrics
-Run the compute script to calculate CAGR, Sharpe, Sortino, Alpha, Beta, Max Drawdown, Value at Risk (VaR 95%), Conditional VaR (CVaR), and Sector HHI concentration, generating CSV reports and plots:
+### 3. Calculate Quantitative Metrics Separately
+Run the compute script to calculate CAGR, Sharpe, Sortino, Alpha, Beta, Max Drawdown, Value at Risk (VaR 95%), Conditional VaR (CVaR), and HHI:
 ```bash
 python scripts/compute_metrics.py
 ```
 *Outputs generated:* `var_cvar_report.csv`, `rolling_sharpe_chart.png`, `benchmark_comparison_chart.png`, and processed tables in `data/processed/`.
 
-### 3. Launch the Interactive Dashboard (Streamlit - B2)
-Launch the premium Streamlit dashboard to explore Industry Trends, Fund Performance (Scatter mapping & Scorecard), Investor Demographics, and SIP cycles:
+### 4. Launch the Interactive Web Dashboard (Flask - B2)
+Launch our custom HTML/JS/CSS interactive dashboard backend server (developed as a premium alternative to Streamlit):
 ```bash
-streamlit run dashboard/app.py
+python dashboard/server.py
 ```
+*Open your web browser and navigate to:* [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
 ### 4. Query Recommendations via Recommender
 Select the top 3 mutual funds by Sharpe ratio within matching risk categories:

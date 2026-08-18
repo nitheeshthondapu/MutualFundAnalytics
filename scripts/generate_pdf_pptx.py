@@ -370,7 +370,7 @@ def generate_pdf():
     # ------------------ 7. INTERACTIVE DASHBOARD DESIGN (Page 15) ------------------
     story.append(Paragraph("7. Interactive Dashboard Design", h1_style))
     story.append(Paragraph(
-        "To replace traditional reporting, we built an interactive Streamlit data application (dashboard/app.py) organized into 4 analytical tabs:",
+        "To replace traditional reporting, we built a premium custom Flask and HTML/JS/CSS interactive web dashboard (dashboard/server.py) organized into 4 analytical tabs:",
         body_style
     ))
     story.append(Paragraph("1. <b>Industry Overview:</b> Provides macro-level statistics including industry AUM growth, monthly SIP trends, and AMC market shares.", bullet_style))
@@ -484,7 +484,7 @@ def generate_pptx():
     set_font(p3.runs[0], size=Pt(18), bold=True, color=royal_blue)
     
     p4 = tf.add_paragraph()
-    p4.text = "1. Clean, reindex, and forward-fill NAV records; standardize transaction details.\n2. Design SQLite Star Schema to store facts and dimensions.\n3. Evaluate CAGR, Sharpe, Sortino, Alpha, Beta, Max Drawdown, VaR/CVaR, and Sector HHI concentration.\n4. Deploy Streamlit interactive web application and schedule weekday ETL fetches."
+    p4.text = "1. Clean, reindex, and forward-fill NAV records; standardize transaction details.\n2. Design SQLite Star Schema to store facts and dimensions.\n3. Evaluate CAGR, Sharpe, Sortino, Alpha, Beta, Max Drawdown, VaR/CVaR, and Sector HHI concentration.\n4. Deploy Custom Flask & HTML/JS/CSS interactive web application and schedule weekday ETL fetches."
     p4.level = 1
 
     # Slide 3: Data Sources
@@ -625,14 +625,14 @@ def generate_pptx():
     if img_path.exists():
         slide.shapes.add_picture(str(img_path), Inches(1), Inches(1.2), width=Inches(8), height=Inches(4.5))
 
-    # Slide 11: Interactive Dashboard (Streamlit Web App)
+    # Slide 11: Interactive Dashboard (Flask & HTML/JS/CSS Web App)
     slide = prs.slides.add_slide(bullet_slide_layout)
     shapes = slide.shapes
-    shapes.title.text = "Premium Interactive Streamlit Web App"
+    shapes.title.text = "Premium Interactive Web Dashboard"
     set_font(shapes.title.text_frame.paragraphs[0].runs[0], font_name='Arial', size=Pt(28), bold=True, color=royal_blue)
     
     tf = shapes.placeholders[1].text_frame
-    tf.text = "A full web app (dashboard/app.py) engineered to replace static slides:"
+    tf.text = "A custom-engineered Single Page Web App (dashboard/server.py + index.html) with Chart.js visualization:"
     
     dash_pts = [
         "Industry Overview: KPI cards for total industry assets and line trends.",
