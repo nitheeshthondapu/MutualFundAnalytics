@@ -398,8 +398,8 @@ def compile_pdf():
     print("Dashboard.pdf created successfully.")
 
 def create_pbix_template():
-    print("Creating template bluestock_mf_dashboard.pbix...")
-    pbix_path = project_root / "dashboard" / "bluestock_mf_dashboard.pbix"
+    print("Creating template bluestock_mf.pbix...")
+    pbix_path = project_root / "dashboard" / "bluestock_mf.pbix"
     pbix_path.parent.mkdir(parents=True, exist_ok=True)
     
     # Since we cannot write a binary PBIX from scratch, we create a valid ZIP containing 
@@ -408,7 +408,7 @@ def create_pbix_template():
     with zipfile.ZipFile(pbix_path, 'w') as zipf:
         zipf.writestr("ODBC_Connection.txt", "SQLite ODBC Connection details:\nDatabase File: data/db/bluestock_mf.db\nDriver: SQLite3 ODBC Driver\n")
         zipf.writestr("Layout_Instructions.txt", "Power BI Layout Details:\n- Tab 1: Industry Overview\n- Tab 2: Fund Performance\n- Tab 3: Investor Analytics\n- Tab 4: SIP & Market Trends\n")
-    print("bluestock_mf_dashboard.pbix template file created.")
+    print("bluestock_mf.pbix template file created.")
 
 def main():
     print("=== Generating Dashboard Deliverables ===")

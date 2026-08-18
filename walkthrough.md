@@ -89,7 +89,7 @@ python run_pipeline.py
 │   ├── server.py
 │   ├── templates/
 │   │   └── index.html
-│   └── bluestock_mf_dashboard.pbix   # Connection template file
+│   └── bluestock_mf.pbix   # Connection template file
 ├── reports/
 │   ├── Final_Report.pdf
 │   ├── Presentation.pptx
