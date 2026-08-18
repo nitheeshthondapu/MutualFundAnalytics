@@ -51,7 +51,7 @@ python run_pipeline.py
 - Staged all changes (`git add .`) and committed (`git commit -m "Final: Complete Bluestock MF Capstone"`).
 - Forced the `v1.0` tag update locally: `git tag -f v1.0`.
 - Pushed changes: `git push origin main` and `git push origin v1.0 --force`.
-- *Result:* The working tree is 100% clean and successfully synchronized on GitHub.
+- *Result:* The working tree is committed and clean at tag v1.0. (Note that executing the pipeline or notebooks locally will naturally rewrite the database and charts, creating modified tracked files in the directory).
 
 ---
 
