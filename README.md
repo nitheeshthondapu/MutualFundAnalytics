@@ -46,7 +46,7 @@ bluestock_mf_capstone/
 
 The project blends 10 structured raw datasets:
 1. **`01_fund_master.csv`**: Contains structural properties of 40 schemes (fund house, category, plan type, SEBI categories).
-2. **`02_nav_history.csv`**: Historical daily NAVs for all schemes (64,320 rows).
+2. **`02_nav_history.csv`**: Historical daily NAVs for all schemes (contains 46,000 raw business-day records, which cleans and reindexes to 64,320 rows after adding calendar dates and applying forward-fill).
 3. **`03_aum_by_fund_house.csv`**: Quarterly Asset Under Management trends per AMC.
 4. **`04_monthly_sip_inflows.csv`**: Industry-wide monthly SIP inflows and active accounts.
 5. **`05_category_inflows.csv`**: Category-specific net inflows per month.
@@ -102,7 +102,7 @@ python scripts/etl_pipeline.py
 *Output database is created at:* `data/db/bluestock_mf.db`.
 
 ### 3. Calculate Quantitative Metrics Separately
-Run the compute script to calculate CAGR, Sharpe, Sortino, Alpha, Beta, Max Drawdown, Value at Risk (VaR 95%), Conditional VaR (CVaR), and HHI:
+Run the compute script to calculate Value at Risk (VaR 95%), Conditional VaR (CVaR), Rolling Sharpe ratios, Investor cohorts, and HHI. Note that base metrics (returns CAGR, static Sharpe/Sortino ratios, Alpha, Beta, and Maximum Drawdowns) are calculated in notebooks/04_performance_analytics.ipynb during notebook execution:
 ```bash
 python scripts/compute_metrics.py
 ```

@@ -66,7 +66,6 @@ def compute_var_cvar():
     df_report = df_report.sort_values('var_95_pct') # most negative return (highest risk) first
     
     # Save reports
-    df_report.to_csv(project_root / "var_cvar_report.csv", index=False)
     df_report.to_csv(project_root / "data" / "processed" / "var_cvar_report.csv", index=False)
     print(f"VaR/CVaR report saved. Calculated for {len(df_report)} schemes.")
     return df_report
@@ -114,11 +113,9 @@ def compute_rolling_sharpe():
     plt.tight_layout()
     
     # Save chart
-    chart_path = project_root / "rolling_sharpe_chart.png"
     chart_path_processed = project_root / "data" / "processed" / "rolling_sharpe_chart.png"
-    chart_path_reports = project_root / "reports" / "rolling_sharpe_chart.png"
+    chart_path_reports = project_root / "reports" / "charts" / "rolling_sharpe_chart.png"
     
-    plt.savefig(chart_path, dpi=300)
     plt.savefig(chart_path_processed, dpi=300)
     plt.savefig(chart_path_reports, dpi=300)
     plt.close()

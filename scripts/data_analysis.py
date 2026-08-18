@@ -19,8 +19,8 @@ def analyze_data():
         print(f"Shape: {df.shape}")
         print("\nData Types:")
         print(df.dtypes)
-        print("\nHead (First 3 rows):")
-        print(df.head(3))
+        print("\nHead (First 5 rows):")
+        print(df.head())
         print("-" * 60)
 
     print("\n=================================================================")
@@ -109,17 +109,17 @@ def analyze_data():
     print("STEP 4: VALIDATE AMFI CODES BETWEEN FUND MASTER & NAV HISTORY")
     print("=================================================================")
     
-    df_nav_rep = datasets.get("nav_history")
+    df_nav_rep = datasets.get("02_nav_history")
     invalid_amfi_codes = 0
     if df_fm is not None and df_nav_rep is not None:
         fm_codes = set(df_fm['amfi_code'].unique())
-        nav_codes = set(df_nav_rep['Scheme_Code'].unique())
+        nav_codes = set(df_nav_rep['amfi_code'].unique())
         
         missing_in_nav = fm_codes - nav_codes
         invalid_amfi_codes = len(missing_in_nav)
         
         print(f"Unique amfi_codes in 01_fund_master: {len(fm_codes)}")
-        print(f"Unique Scheme_Codes in nav_history: {len(nav_codes)}")
+        print(f"Unique amfi_codes in 02_nav_history: {len(nav_codes)}")
         
         if invalid_amfi_codes == 0:
             print("All AMFI scheme codes found.")
@@ -128,7 +128,7 @@ def analyze_data():
             for code in sorted(list(missing_in_nav)):
                 print(code)
     else:
-        print("Error: '01_fund_master' or 'nav_history' dataset not loaded.")
+        print("Error: '01_fund_master' or '02_nav_history' dataset not loaded.")
 
     print("\n============================\nDATA QUALITY SUMMARY\n============================")
     
@@ -181,7 +181,7 @@ def analyze_data():
         f.write(f"- Successfully loaded {len(datasets)} total CSV datasets (including API-fetched NAV files).\n")
         f.write("- YoY Growth column in '04_monthly_sip_inflows' has 12 missing values (expected mathematically due to lack of historical data for the first 12 months).\n")
         if invalid_amfi_codes > 0:
-            f.write(f"- {invalid_amfi_codes} AMFI codes from 01_fund_master.csv are missing in nav_history.csv.\n")
+            f.write(f"- {invalid_amfi_codes} AMFI codes from 01_fund_master.csv are missing in 02_nav_history.csv.\n")
             f.write("  Missing codes listed in console output.\n")
             
     print(f"Data quality summary report written to {summary_file_path.resolve()}")

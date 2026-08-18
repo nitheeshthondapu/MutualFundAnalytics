@@ -4,9 +4,15 @@ from pathlib import Path
 from sqlalchemy import create_engine, text
 
 def main():
-    db_path = Path("bluestock_mf.db")
-    schema_path = Path("schema.sql")
-    processed_dir = Path("data/processed")
+    import sys
+    project_root = Path(__file__).resolve().parent.parent
+    if str(project_root) not in sys.path:
+        sys.path.insert(0, str(project_root))
+        
+    db_path = project_root / "data" / "db" / "bluestock_mf.db"
+    db_path.parent.mkdir(parents=True, exist_ok=True)
+    schema_path = project_root / "sql" / "schema.sql"
+    processed_dir = project_root / "data" / "processed"
     
     # 1. Connect to SQLite and execute schema.sql DDL
     print("Connecting to database and running schema DDL...")

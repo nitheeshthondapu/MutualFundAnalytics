@@ -1,4 +1,5 @@
 import os
+import sys
 import logging
 from pathlib import Path
 import pandas as pd
@@ -11,7 +12,11 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-from src.live_nav_fetch import fetch_and_save_nav
+project_root = Path(__file__).resolve().parent.parent
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
+
+from scripts.live_nav_fetch import fetch_and_save_nav
 
 def load_raw_data(data_dir: str | Path = 'data/raw') -> dict[str, pd.DataFrame]:
     """

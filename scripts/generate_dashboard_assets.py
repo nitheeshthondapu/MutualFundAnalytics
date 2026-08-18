@@ -126,7 +126,7 @@ def generate_dashboard_pages():
     ax_folio.set_title("Industry Folio Distribution by Asset Class", fontsize=11, color=text_color, weight='bold', pad=10)
 
     plt.tight_layout(rect=[0, 0.02, 1, 0.95])
-    plt.savefig(project_root / "dashboard_page_1.png", dpi=200, facecolor=bg_color)
+    plt.savefig(project_root / "reports" / "charts" / "dashboard_page_1.png", dpi=200, facecolor=bg_color)
     plt.close()
 
     # ------------------ PAGE 2: FUND PERFORMANCE ------------------
@@ -165,7 +165,7 @@ def generate_dashboard_pages():
     ax_tbl.yaxis.set_visible(False)
     ax_tbl.set_title("Fund Scorecard Ranking (Top 5)", fontsize=11, color=text_color, weight='bold', pad=10)
     
-    df_scorecard = pd.read_csv(project_root / "fund_scorecard.csv").head(5)
+    df_scorecard = pd.read_csv(project_root / "data" / "processed" / "fund_scorecard.csv").head(5)
     tbl_text = f"{'Rank':<4} | {'Scheme Name':<38} | {'3Yr Ret':<8} | {'Sharpe':<6} | {'Alpha':<6}\n"
     tbl_text += "-" * 70 + "\n"
     for idx, row in df_scorecard.iterrows():
@@ -211,7 +211,7 @@ def generate_dashboard_pages():
     ax_slicers.set_ylim(0, 1)
 
     plt.tight_layout(rect=[0, 0.02, 1, 0.95])
-    plt.savefig(project_root / "dashboard_page_2.png", dpi=200, facecolor=bg_color)
+    plt.savefig(project_root / "reports" / "charts" / "dashboard_page_2.png", dpi=200, facecolor=bg_color)
     plt.close()
 
     # ------------------ PAGE 3: INVESTOR ANALYTICS ------------------
@@ -284,7 +284,7 @@ def generate_dashboard_pages():
     plt.setp(ax_vol.get_xticklabels(), rotation=30, ha='right')
 
     plt.tight_layout(rect=[0, 0.02, 1, 0.95])
-    plt.savefig(project_root / "dashboard_page_3.png", dpi=200, facecolor=bg_color)
+    plt.savefig(project_root / "reports" / "charts" / "dashboard_page_3.png", dpi=200, facecolor=bg_color)
     plt.close()
 
     # ------------------ PAGE 4: SIP & MARKET TRENDS ------------------
@@ -372,13 +372,13 @@ def generate_dashboard_pages():
     ax_logo.set_ylim(0, 1)
 
     plt.tight_layout(rect=[0, 0.02, 1, 0.95])
-    plt.savefig(project_root / "dashboard_page_4.png", dpi=200, facecolor=bg_color)
+    plt.savefig(project_root / "reports" / "charts" / "dashboard_page_4.png", dpi=200, facecolor=bg_color)
     plt.close()
     print("Dashboard pages generated successfully.")
 
 def compile_pdf():
     print("Compiling dashboard layouts into Dashboard.pdf...")
-    pdf_path = project_root / "Dashboard.pdf"
+    pdf_path = project_root / "reports" / "Dashboard.pdf"
     
     # Page size matching dashboard widescreen aspect ratio
     # letter is 612x792. Let's use letter or landscape letter.
@@ -388,7 +388,7 @@ def compile_pdf():
     
     # 4 images
     for i in range(1, 5):
-        img_path = project_root / f"dashboard_page_{i}.png"
+        img_path = project_root / "reports" / "charts" / f"dashboard_page_{i}.png"
         if img_path.exists():
             story.append(Image(str(img_path), width=772, height=440))
             if i < 4:

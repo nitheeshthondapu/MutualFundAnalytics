@@ -23,23 +23,23 @@ ORDER BY amfi_code, month;
 
 
 -- Query 3: SIP Year-over-Year (YoY) Inflow Growth
--- Dynamically calculates the YoY growth of SIP transaction volumes per month from transaction facts.
+-- Calculates the YoY growth of the official industry-wide monthly SIP inflows.
 WITH monthly_sip AS (
     SELECT 
-        strftime('%Y-%m', transaction_date) AS month,
-        strftime('%Y', transaction_date) AS yr,
-        strftime('%m', transaction_date) AS mth,
-        SUM(amount_inr) AS total_sip_amount
-    FROM fact_transactions
-    WHERE transaction_type = 'SIP'
-    GROUP BY month
+        month,
+        SUBSTR(month, 1, 4) AS yr,
+        SUBSTR(month, 6, 2) AS mth,
+        sip_inflow_crore,
+        yoy_growth_pct
+    FROM monthly_sip_inflows
 )
 SELECT 
     t1.month AS current_month, 
-    t1.total_sip_amount AS current_amount, 
+    t1.sip_inflow_crore AS current_inflow_cr, 
     t2.month AS prior_year_month, 
-    t2.total_sip_amount AS prior_year_amount,
-    ROUND(((t1.total_sip_amount - t2.total_sip_amount) * 100.0 / t2.total_sip_amount), 2) AS yoy_growth_pct
+    t2.sip_inflow_crore AS prior_year_inflow_cr,
+    ROUND(((t1.sip_inflow_crore - t2.sip_inflow_crore) * 100.0 / t2.sip_inflow_crore), 2) AS calculated_yoy_growth_pct,
+    t1.yoy_growth_pct AS reported_yoy_growth_pct
 FROM monthly_sip t1
 JOIN monthly_sip t2 
   ON CAST(t1.yr AS INTEGER) = CAST(t2.yr AS INTEGER) + 1 

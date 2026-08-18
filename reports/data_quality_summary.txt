@@ -4,12 +4,10 @@ DATA QUALITY SUMMARY
 Datasets Loaded      : 10
 Missing Values       : 12
 Duplicate Rows       : 0
-Invalid AMFI Codes   : 34
-Overall Quality      : Needs Attention
+Invalid AMFI Codes   : 0
+Overall Quality      : Good
 ============================
 
 DETAILED FINDINGS:
-- Successfully loaded 18 total CSV datasets (including API-fetched NAV files).
+- Successfully loaded 16 total CSV datasets (including API-fetched NAV files).
 - YoY Growth column in '04_monthly_sip_inflows' has 12 missing values (expected mathematically due to lack of historical data for the first 12 months).
-- 34 AMFI codes from 01_fund_master.csv are missing in nav_history.csv.
-  Missing codes listed in console output.

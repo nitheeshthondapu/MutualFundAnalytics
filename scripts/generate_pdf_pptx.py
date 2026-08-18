@@ -1,7 +1,7 @@
 """
 Generate PDF & PPTX Reports for Bluestock Mutual Fund Analytics.
 This script programmatically generates:
-1. reports/Final_Report.pdf (approx 15-20 pages, embedded with 6 charts, SQL queries, and data dictionary).
+1. reports/Final_Report.pdf (approx 15-20 pages, embedded with charts, SQL queries, and data dictionary).
 2. reports/Presentation.pptx (12 slides including problem statement, architecture, performance, and findings).
 """
 
@@ -39,8 +39,8 @@ def generate_pdf():
         'CoverTitle',
         parent=styles['Heading1'],
         fontName='Helvetica-Bold',
-        fontSize=26,
-        leading=32,
+        fontSize=24,
+        leading=30,
         textColor=colors.HexColor("#2563eb"), # Royal Blue
         alignment=1, # Center
         spaceAfter=15
@@ -49,8 +49,8 @@ def generate_pdf():
         'CoverSubtitle',
         parent=styles['Normal'],
         fontName='Helvetica',
-        fontSize=13,
-        leading=18,
+        fontSize=12,
+        leading=16,
         textColor=colors.HexColor("#4b5563"),
         alignment=1,
         spaceAfter=40
@@ -58,51 +58,49 @@ def generate_pdf():
     meta_style = ParagraphStyle(
         'CoverMeta',
         parent=styles['Normal'],
-        fontName='Helvetica-Bold',
-        fontSize=10,
-        leading=14,
-        textColor=colors.HexColor("#1f2937"),
-        alignment=1,
-        spaceAfter=10
-    )
-    h1_style = ParagraphStyle(
-        'Heading1_Custom',
-        parent=styles['Heading1'],
-        fontName='Helvetica-Bold',
-        fontSize=18,
-        leading=22,
-        textColor=colors.HexColor("#1e3a8a"),
-        spaceBefore=15,
-        spaceAfter=10,
-        keepWithNext=True
-    )
-    h2_style = ParagraphStyle(
-        'Heading2_Custom',
-        parent=styles['Heading2'],
-        fontName='Helvetica-Bold',
-        fontSize=13,
-        leading=16,
-        textColor=colors.HexColor("#2563eb"),
-        spaceBefore=12,
-        spaceAfter=6,
-        keepWithNext=True
-    )
-    body_style = ParagraphStyle(
-        'Body_Custom',
-        parent=styles['BodyText'],
         fontName='Helvetica',
         fontSize=10,
         leading=14,
         textColor=colors.HexColor("#1f2937"),
-        spaceBefore=4,
         spaceAfter=6
+    )
+    h1_style = ParagraphStyle(
+        'Header1',
+        parent=styles['Heading1'],
+        fontName='Helvetica-Bold',
+        fontSize=16,
+        leading=20,
+        textColor=colors.HexColor("#1e3a8a"),
+        spaceBefore=10,
+        spaceAfter=15,
+        keepWithNext=True
+    )
+    h2_style = ParagraphStyle(
+        'Header2',
+        parent=styles['Heading2'],
+        fontName='Helvetica-Bold',
+        fontSize=12,
+        leading=16,
+        textColor=colors.HexColor("#2563eb"),
+        spaceBefore=8,
+        spaceAfter=10,
+        keepWithNext=True
+    )
+    body_style = ParagraphStyle(
+        'Body_Custom',
+        parent=styles['Normal'],
+        fontName='Helvetica',
+        fontSize=9.5,
+        leading=13.5,
+        textColor=colors.HexColor("#1f2937"),
+        spaceAfter=10
     )
     bullet_style = ParagraphStyle(
         'Bullet_Custom',
         parent=styles['Normal'],
         fontName='Helvetica',
-        fontSize=9.5,
-        leading=13,
+        fontSize=9,
+        leading=12.5,
         textColor=colors.HexColor("#1f2937"),
         leftIndent=20,
         firstLineIndent=-10,
@@ -113,8 +111,8 @@ def generate_pdf():
         'Code_Custom',
         parent=styles['Normal'],
         fontName='Courier',
-        fontSize=8,
-        leading=10,
+        fontSize=7.5,
+        leading=9.5,
         textColor=colors.HexColor("#0f172a"),
         backColor=colors.HexColor("#f1f5f9"),
         borderPadding=6,
@@ -126,14 +124,13 @@ def generate_pdf():
     
     # ------------------ COVER PAGE (Page 1) ------------------
     story.append(Spacer(1, 100))
-    # Add a mock logo using standard reportlab flowable or spacer representation
     story.append(Paragraph("BLUESTOCK MUTUAL FUND ANALYTICS", title_style))
     story.append(Paragraph("A Comprehensive Capstone Project on Ingestion, ETL Pipeline Design, Performance Evaluation, and Advanced Quantitative Portfolio Risk Modeling", subtitle_style))
-    story.append(Spacer(1, 120))
+    story.append(Spacer(1, 150))
     story.append(Paragraph("<b>Prepared For:</b> Bluestock Fintech Academy Review Board", meta_style))
     story.append(Paragraph("<b>Author:</b> Nitheesh Thondapu", meta_style))
     story.append(Paragraph("<b>Date:</b> August 2026", meta_style))
-    story.append(Paragraph("<b>Version:</b> 1.0 (Final)", meta_style))
+    story.append(Paragraph("<b>Version:</b> 1.0 (Final Commit)", meta_style))
     story.append(PageBreak())
     
     # ------------------ TABLE OF CONTENTS (Page 2) ------------------
@@ -141,20 +138,21 @@ def generate_pdf():
     story.append(Spacer(1, 10))
     
     toc_data = [
-        ["1. Executive Summary", "......................................................................................................................................", "Page 3"],
+        ["1. Executive Summary & Project Purpose", "......................................................................................................................................", "Page 3"],
         ["2. Data Sources & Schema Design", "......................................................................................................................................", "Page 4"],
-        ["3. Data Quality & ETL Pipeline", "......................................................................................................................................", "Page 6"],
-        ["4. Exploratory Data Analysis (EDA) Findings", "......................................................................................................................................", "Page 8"],
-        ["5. Mutual Fund Performance Analytics", "......................................................................................................................................", "Page 11"],
-        ["6. Advanced Quantitative Risk Analysis", "......................................................................................................................................", "Page 13"],
-        ["7. Interactive Dashboard Design", "......................................................................................................................................", "Page 15"],
-        ["8. Limitations, Conclusions & Recommendations", "......................................................................................................................................", "Page 16"],
-        ["9. Appendix: SQL Queries", "......................................................................................................................................", "Page 18"]
+        ["3. Data Ingestion & ETL Pipeline Design", "......................................................................................................................................", "Page 6"],
+        ["4. Ingestion & Live API Metadata", "......................................................................................................................................", "Page 7"],
+        ["5. Exploratory Data Analysis (EDA) Findings", "......................................................................................................................................", "Page 8"],
+        ["6. Mutual Fund Performance Analytics", "......................................................................................................................................", "Page 11"],
+        ["7. Advanced Quantitative Risk Analysis", "......................................................................................................................................", "Page 13"],
+        ["8. Interactive Dashboard Design", "......................................................................................................................................", "Page 15"],
+        ["9. Limitations, Conclusions & Recommendations", "......................................................................................................................................", "Page 16"],
+        ["10. Appendix: Analytical SQL Queries", "......................................................................................................................................", "Page 18"]
     ]
     t_toc = Table(toc_data, colWidths=[180, 260, 50])
     t_toc.setStyle(TableStyle([
         ('FONTNAME', (0,0), (-1,-1), 'Helvetica'),
-        ('FONTSIZE', (0,0), (-1,-1), 9),
+        ('FONTSIZE', (0,0), (-1,-1), 8.5),
         ('BOTTOMPADDING', (0,0), (-1,-1), 8),
         ('TEXTCOLOR', (0,0), (-1,-1), colors.HexColor("#1f2937")),
         ('ALIGN', (2,0), (2,-1), 'RIGHT'),
@@ -162,263 +160,470 @@ def generate_pdf():
     story.append(t_toc)
     story.append(PageBreak())
     
-    # ------------------ 1. EXECUTIVE SUMMARY (Page 3) ------------------
-    story.append(Paragraph("1. Executive Summary", h1_style))
+    # ------------------ 1. EXECUTIVE SUMMARY & PROJECT PURPOSE (Page 3) ------------------
+    story.append(Paragraph("1. Executive Summary & Project Purpose", h1_style))
     story.append(Paragraph(
-        "This project delivers an end-to-end investment intelligence system for analyzing Indian Mutual Fund schemes. "
-        "The primary purpose is to ingestion historical Net Asset Values (NAV), clean values, store facts in a relational "
-        "star schema database, evaluate fund risks and returns, and present interactive analytics to assist portfolio managers. "
-        "By applying robust statistical techniques, we evaluated 40 schemes over a 4.4-year history (Jan 2022 to May 2026) representing equity, debt, and liquid asset classes.",
+        "The Indian retail investment landscape has experienced exponential growth, with mutual funds serving as a primary vehicle for retail wealth creation. "
+        "However, portfolio managers, analysts, and financial advisors face significant hurdles in synthesizing multi-modal financial data. "
+        "These include irregular NAV updates, missing data points during market holidays, inconsistent transaction labeling, and unstandardized demographic markers. "
+        "This capstone project implements an end-to-end investment intelligence system to solve these challenges.",
         body_style
     ))
-    story.append(Paragraph("Key Findings of the Analytics Capstone:", h2_style))
-    story.append(Paragraph("• <b>Performance leaders:</b> SBI Small Cap Fund (23.39% 3-year return) and Kotak Emerging Equity (18.23%) dominate return performance but introduce high volatility.", bullet_style))
-    story.append(Paragraph("• <b>Risk-adjusted efficiency:</b> HDFC Top 100 Regular leads Large Cap equity funds with a Sharpe ratio of 1.060. Liquid funds exhibit mathematical anomalies due to near-zero standard deviation.", bullet_style))
-    story.append(Paragraph("• <b>Tail Risk Assessment:</b> SBI Small Cap Fund and Quant Mid Cap have the highest daily VaR (95%) of -2.12% and -1.95%, whereas HDFC Liquid Fund exhibits a minimal VaR of -0.01%.", bullet_style))
-    story.append(Paragraph("• <b>SIP Mandate Retention Gaps:</b> Over 97.8% of long-term SIP investors show an average gap greater than 35 days between consecutive installments, indicating high friction or mandate failure risks.", bullet_style))
-    story.append(Paragraph("• <b>Portfolio Sector Concentration:</b> HDFC Money Market and SBI Small Cap exhibit high concentration (HHI > 2800), while Nippon Large Cap provides excellent diversification (HHI: 1,142) across 15+ sectors.", bullet_style))
+    story.append(Paragraph(
+        "We built a structured data engineering pipeline that ingests historical Net Asset Values (NAV), cleans the records, structures a relational SQLite star schema database, "
+        "and computes key risk-return statistics. The dataset covers 40 distinct mutual fund schemes over a 4.4-year period (January 2022 to May 2026), "
+        "representing equity, debt, and liquid asset categories.",
+        body_style
+    ))
+    story.append(Paragraph("Core Quantitative & Business Findings:", h2_style))
+    story.append(Paragraph("• <b>Performance Leaders:</b> SBI Small Cap Fund (23.39% annualized return) and Kotak Emerging Equity (18.23% return) are the highest-returning schemes over the analysis period. However, they display substantial volatility.", bullet_style))
+    story.append(Paragraph("• <b>Risk-Adjusted Ratios:</b> HDFC Top 100 Fund Regular leads the large-cap equity segment with an annualized Sharpe ratio of 1.060. Liquid and debt funds show low volatility, resulting in high risk-adjusted indicators.", bullet_style))
+    story.append(Paragraph("• <b>Tail Risk Assessment:</b> High-beta equity funds exhibit higher historical daily Value at Risk (VaR 95%). ABSL Small Cap (-2.39%) and Axis Small Cap (-2.32%) display the largest daily downside thresholds.", bullet_style))
+    story.append(Paragraph("• <b>Systemic SIP Attrition:</b> Over 97.8% of long-term SIP investors show an average gap greater than 35 days between consecutive installments. This suggests systemic payment friction or mandate cancellation risks.", bullet_style))
+    story.append(Paragraph("• <b>Portfolio Diversification:</b> Horizontal sector concentration (HHI) analysis shows that HDFC Money Market has a highly concentrated portfolio (HHI: 3,124), whereas Nippon India Large Cap provides broad diversification (HHI: 1,142).", bullet_style))
     story.append(PageBreak())
     
-    # ------------------ 2. DATA SOURCES & SCHEMA DESIGN (Page 4-5) ------------------
+    # ------------------ 2. DATA SOURCES & SCHEMA DESIGN (Page 4) ------------------
     story.append(Paragraph("2. Data Sources & Schema Design", h1_style))
     story.append(Paragraph(
-        "The analytics platform blends 10 structured CSV data sources mapping AMC fund details, NAV history, investor profiles, and market index closes. "
-        "To support high-performance analytical queries, we engineered an SQLite database using a <b>Star Schema</b> design. "
-        "This isolates dimensional properties (funds, dates) from transactional and historical facts.",
+        "The project blends 10 separate raw datasets mapping mutual fund assets, transaction records, and market benchmarks. "
+        "To support optimized analytical queries, we engineered an SQLite database using a <b>Star Schema</b> design. "
+        "This structure isolates static dimensional properties (funds, dates) from daily facts (historical NAVs, transaction journals).",
         body_style
     ))
-    story.append(Spacer(1, 10))
-    story.append(Paragraph("Database Star Schema Architecture:", h2_style))
     
+    story.append(Paragraph("Star Schema Table Layout:", h2_style))
     schema_desc = [
-        ["Table Name", "Table Type", "Primary/Foreign Keys", "Description"],
-        ["dim_fund", "Dimension", "amfi_code (PK)", "Stores fund manager, launch dates, risk categories, expense ratios."],
-        ["dim_date", "Dimension", "date (PK)", "Calendar dates mapped to year, month, day, quarter, and weekend flags."],
-        ["fact_nav", "Fact", "amfi_code, date (Composite PK)", "Tracks historical net asset values of 40 schemes on a daily basis."],
-        ["fact_transactions", "Fact", "transaction_id (PK)", "Records purchase and redemption transactions for 32,778 investors."],
-        ["fact_performance", "Fact", "amfi_code (PK)", "Holds performance statistics (ratios, CAGR, Std Dev, Alpha, Beta)."],
-        ["fact_aum", "Fact", "aum_id (PK)", "Tracks monthly assets under management trend for AMC fund houses."]
+        ["Table Name", "Type", "Keys", "Description"],
+        ["dim_fund", "Dimension", "amfi_code (PK)", "Fund metadata, category, plan type, and risk class."],
+        ["dim_date", "Dimension", "date (PK)", "Date keys mapped to day, month, year, and holiday flags."],
+        ["fact_nav", "Fact", "amfi_code, date (Composite PK)", "Daily historical Net Asset Value (NAV) records."],
+        ["fact_transactions", "Fact", "transaction_id (PK)", "Transactional journals for 32,778 retail investors."],
+        ["fact_performance", "Fact", "amfi_code (PK)", "Computed risk coefficients (Alpha, Beta, Sharpe, Max DD)."],
+        ["fact_aum", "Fact", "aum_id (PK)", "Quarterly assets under management trends per AMC."]
     ]
-    t_schema = Table(schema_desc, colWidths=[100, 70, 150, 180])
+    t_schema = Table(schema_desc, colWidths=[90, 70, 150, 190])
     t_schema.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#1e3a8a")),
         ('TEXTCOLOR', (0,0), (-1,0), colors.white),
         ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
-        ('FONTSIZE', (0,0), (-1,0), 9),
+        ('FONTSIZE', (0,0), (-1,0), 8.5),
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#cbd5e1")),
         ('FONTNAME', (0,1), (-1,-1), 'Helvetica'),
         ('FONTSIZE', (0,1), (-1,-1), 8),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 5),
-        ('TOPPADDING', (0,0), (-1,-1), 5),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+        ('TOPPADDING', (0,0), (-1,-1), 4),
     ]))
     story.append(t_schema)
-    story.append(Spacer(1, 15))
-    story.append(Paragraph("Auxiliary Dimension & Ingest Tables:", h2_style))
-    story.append(Paragraph("• <b>portfolio_holdings:</b> Tracks detailed stock symbol, name, sector weight, and market value for equity funds.", bullet_style))
-    story.append(Paragraph("• <b>benchmark_indices:</b> Stores daily closing values of benchmark indices (Nifty 50, Nifty 100) for returns comparison.", bullet_style))
-    story.append(Paragraph("• <b>monthly_sip_inflows / category_inflows:</b> Monitors monthly inflow trends across asset categories (Equity, Hybrid, Debt).", bullet_style))
+    
+    story.append(Spacer(1, 10))
+    story.append(Paragraph("Data Dictionary Summary (Key Columns):", h2_style))
+    dd_data = [
+        ["Table", "Column Name", "Data Type", "Description"],
+        ["dim_fund", "amfi_code", "INTEGER", "Unique identifier for the scheme (AMFI standard)."],
+        ["dim_fund", "scheme_name", "TEXT", "Full legal name of the mutual fund scheme."],
+        ["dim_fund", "category", "TEXT", "Asset class classification (Equity, Debt, Liquid)."],
+        ["fact_nav", "nav", "REAL", "Net Asset Value per unit of the scheme on a specific date."],
+        ["fact_transactions", "amount_inr", "INTEGER", "Investment or redemption value in Indian Rupees."],
+        ["fact_transactions", "transaction_type", "TEXT", "Normalized type: SIP, Lumpsum, or Redemption."],
+        ["fact_performance", "sharpe_ratio", "REAL", "Annualized excess return per unit of volatility."],
+        ["fact_performance", "max_drawdown", "REAL", "Worst peak-to-trough drop percentage."]
+    ]
+    t_dd = Table(dd_data, colWidths=[100, 110, 80, 210])
+    t_dd.setStyle(TableStyle([
+        ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#1e3a8a")),
+        ('TEXTCOLOR', (0,0), (-1,0), colors.white),
+        ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
+        ('FONTSIZE', (0,0), (-1,0), 8.5),
+        ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#cbd5e1")),
+        ('FONTNAME', (0,1), (-1,-1), 'Helvetica'),
+        ('FONTSIZE', (0,1), (-1,-1), 7.5),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+        ('TOPPADDING', (0,0), (-1,-1), 4),
+    ]))
+    story.append(t_dd)
     story.append(PageBreak())
     
-    # ------------------ 3. DATA QUALITY & ETL PIPELINE (Page 6-7) ------------------
-    story.append(Paragraph("3. Data Quality & ETL Pipeline", h1_style))
+    # ------------------ 3. DATA INGESTION & ETL PIPELINE DESIGN (Page 6) ------------------
+    story.append(Paragraph("3. Data Ingestion & ETL Pipeline Design", h1_style))
     story.append(Paragraph(
-        "A master ETL orchestrator script (<code>etl_pipeline.py</code>) was designed to automate data ingestion, cleaning, and DB loading. "
-        "Specific cleaning rules ensure data quality before insertion:",
+        "A Python-based ETL pipeline (<code>etl_pipeline.py</code>) cleans, validates, and loads the data. "
+        "This ensures database referential integrity and standardizes values before analysis.",
         body_style
     ))
-    story.append(Paragraph("• <b>NAV History Cleaning:</b> Standardized date formats. Filtered out duplicate rows and rows with non-positive NAV values. Reindexed the daily NAV records and forward-filled (<code>ffill</code>) NAVs for holidays and weekends.", bullet_style))
-    story.append(Paragraph("• <b>Transaction Normalization:</b> Fixed transaction dates. Cleaned and standardized the transaction types to 'SIP', 'Lumpsum', or 'Redemption'. Standardized KYC statuses to 'Verified' or 'Pending'.", bullet_style))
-    story.append(Paragraph("• <b>Performance Validation:</b> Coerced all returns to numeric types. Flagged anomalies like liquid funds where volatility standard deviation is extremely low, skewing Sharpe and Sortino ratios.", bullet_style))
+    story.append(Paragraph("Core Cleaning & Transformation Rules Applied:", h2_style))
+    story.append(Paragraph("• <b>NAV Reindexing and Holiday Gaps:</b> Raw NAV histories are published only on business days, leaving gaps for weekends and national holidays. The ETL pipeline reindexes each fund's NAV history against a continuous calendar date range and applies a forward-fill (<code>ffill</code>) logic. This ensures a continuous sequence for rolling metrics.", bullet_style))
+    story.append(Paragraph("• <b>Transaction Standardization:</b> Transaction types are normalized to 'SIP', 'Lumpsum', or 'Redemption', and KYC flags are standardized to 'Verified' or 'Pending'. Non-positive transaction amounts are filtered out.", bullet_style))
+    story.append(Paragraph("• <b>Referential Integrity:</b> Dimensional checks enforce foreign key constraints, verifying that every AMFI code in the transaction and performance records matches a row in the fund master.", bullet_style))
     
     story.append(Spacer(1, 10))
     story.append(Paragraph("ETL Data Integrity & Row Count Verification:", h2_style))
     
-    # Table of row counts (from etl_pipeline run)
     rows_data = [
-        ["Filename", "Table Name", "CSV Rows", "DB Rows", "Integrity Match"],
-        ["01_fund_master.csv", "dim_fund", "40", "40", "MATCHED"],
-        ["02_nav_history.csv", "fact_nav", "64,320", "64,320", "MATCHED"],
-        ["03_aum_by_fund_house.csv", "fact_aum", "90", "90", "MATCHED"],
-        ["04_monthly_sip_inflows.csv", "monthly_sip_inflows", "48", "48", "MATCHED"],
-        ["05_category_inflows.csv", "category_inflows", "144", "144", "MATCHED"],
-        ["06_industry_folio_count.csv", "industry_folio_count", "21", "21", "MATCHED"],
-        ["07_scheme_performance.csv", "fact_performance", "40", "40", "MATCHED"],
-        ["08_investor_transactions.csv", "fact_transactions", "32,778", "32,778", "MATCHED"],
-        ["09_portfolio_holdings.csv", "portfolio_holdings", "322", "322", "MATCHED"],
-        ["10_benchmark_indices.csv", "benchmark_indices", "8,050", "8,050", "MATCHED"]
+        ["Filename", "Target Table", "CSV Rows", "DB Rows", "Integrity Match"],
+        ["01_fund_master.csv", "dim_fund", "40", "40", "MATCHED (100%)"],
+        ["02_nav_history.csv", "fact_nav", "64,320", "64,320", "MATCHED (100%)"],
+        ["03_aum_by_fund_house.csv", "fact_aum", "90", "90", "MATCHED (100%)"],
+        ["04_monthly_sip_inflows.csv", "monthly_sip_inflows", "48", "48", "MATCHED (100%)"],
+        ["05_category_inflows.csv", "category_inflows", "144", "144", "MATCHED (100%)"],
+        ["06_industry_folio_count.csv", "industry_folio_count", "21", "21", "MATCHED (100%)"],
+        ["07_scheme_performance.csv", "fact_performance", "40", "40", "MATCHED (100%)"],
+        ["08_investor_transactions.csv", "fact_transactions", "32,778", "32,778", "MATCHED (100%)"],
+        ["09_portfolio_holdings.csv", "portfolio_holdings", "322", "322", "MATCHED (100%)"],
+        ["10_benchmark_indices.csv", "benchmark_indices", "8,050", "8,050", "MATCHED (100%)"]
     ]
-    t_rows = Table(rows_data, colWidths=[150, 130, 70, 70, 80])
+    t_rows = Table(rows_data, colWidths=[140, 120, 70, 70, 100])
     t_rows.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#1e3a8a")),
         ('TEXTCOLOR', (0,0), (-1,0), colors.white),
         ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
-        ('FONTSIZE', (0,0), (-1,0), 9),
+        ('FONTSIZE', (0,0), (-1,0), 8.5),
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#cbd5e1")),
         ('FONTNAME', (0,1), (-1,-1), 'Helvetica'),
-        ('FONTSIZE', (0,1), (-1,-1), 8),
+        ('FONTSIZE', (0,1), (-1,-1), 7.5),
         ('ALIGN', (2,1), (3,-1), 'RIGHT'),
         ('ALIGN', (4,1), (4,-1), 'CENTER'),
         ('TEXTCOLOR', (4,1), (4,-1), colors.HexColor("#16a34a")),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
-        ('TOPPADDING', (0,0), (-1,-1), 4),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 3),
+        ('TOPPADDING', (0,0), (-1,-1), 3),
     ]))
     story.append(t_rows)
     story.append(PageBreak())
     
-    # ------------------ 4. EXPLORATORY DATA ANALYSIS (Page 8-10) ------------------
-    story.append(Paragraph("4. Exploratory Data Analysis (EDA) Findings", h1_style))
+    # ------------------ 4. INGESTION & LIVE API METADATA (Page 7) ------------------
+    story.append(Paragraph("4. Ingestion & Live API Metadata", h1_style))
     story.append(Paragraph(
-        "Exploratory data analysis reveals high growth rates across the mutual fund industry. "
-        "Total Industry AUM has experienced a significant upward trajectory between 2022 and 2025. "
-        "Furthermore, monthly SIP inflows show strong momentum, reflecting growing retail investor confidence.",
+        "A critical finding during the data validation phase relates to the comparison of local dataset codes with the live API standard (<code>api.mfapi.in</code>). "
+        "The project instructions require fetching live NAV histories for six key schemes to compare values. "
+        "However, our validation check revealed a mismatch in the AMFI code mapping between the historical CSV records and the live API database.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Code Mapping Mismatches:</b><br/>"
+        "• Code <code>125497</code> represents <i>HDFC Top 100 Direct</i> in the historical dataset, but maps to <i>SBI Small Cap Direct</i> on the live API.<br/>"
+        "• Code <code>119551</code> represents <i>SBI Bluechip Regular</i> in the historical dataset, but maps to <i>Aditya Birla Sun Life Banking & PSU Debt Fund</i> on the live API.<br/>"
+        "• Code <code>120503</code> represents <i>ICICI Pru Bluechip Regular</i> in the historical dataset, but maps to <i>Axis ELSS Tax Saver Fund</i> on the live API.<br/>"
+        "• Code <code>119092</code> represents <i>Axis Bluechip Regular</i> in the historical dataset, but maps to <i>HDFC Money Market Fund</i> on the live API.<br/>"
+        "• Code <code>120841</code> represents <i>Kotak Bluechip Regular</i> in the historical dataset, but maps to <i>Quant Mid Cap Fund</i> on the live API.<br/>"
+        "• Only <i>Nippon India Large Cap</i> (<code>118632</code>) matches the correct scheme name, though the API returns the Direct plan.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Architectural Decision:</b><br/>"
+        "To preserve data integrity, the live API NAV files were kept as separate validation artifacts in <code>data/raw/</code> "
+        "and were not merged into the main 40-scheme historical dataset. This prevents mock AMFI codes from corrupting the historical database.",
+        body_style
+    ))
+    story.append(PageBreak())
+    
+    # ------------------ 5. EXPLORATORY DATA ANALYSIS (Page 8) ------------------
+    story.append(Paragraph("5. Exploratory Data Analysis (EDA) Findings", h1_style))
+    story.append(Paragraph(
+        "Exploratory data analysis highlights strong growth and retail inflows in the Indian mutual fund industry. "
+        "The total Assets Under Management (AUM) grew significantly from 2022 to 2025, supported by steady monthly SIP inflows.",
         body_style
     ))
     
     # Embed total AUM growth chart
-    img_aum_path = project_root / "eda_total_aum_growth.png"
+    img_aum_path = project_root / "reports" / "charts" / "eda_total_aum_growth.png"
     if img_aum_path.exists():
-        story.append(Spacer(1, 10))
-        story.append(Image(str(img_aum_path), width=450, height=220))
-        story.append(Paragraph("Figure 4.1: Cumulative Industry AUM Growth (2022-2025)", subtitle_style))
-        story.append(Spacer(1, 10))
+        story.append(Spacer(1, 5))
+        story.append(Image(str(img_aum_path), width=420, height=200))
+        story.append(Paragraph("Figure 5.1: Cumulative Industry AUM Growth (2022-2025)", subtitle_style))
+        story.append(Spacer(1, 5))
         
     story.append(Paragraph(
-        "Demographic analysis indicates that retail participation is heavily skewed towards the young working population. "
-        "The 18-25 and 26-35 age groups represent the highest transaction frequency, although their average SIP ticket sizes are smaller than the mature 36-55 age group.",
+        "<b>Industry AUM Growth Analysis:</b><br/>"
+        "The upward trend in Figure 5.1 reflects broader retail participation and rising asset valuations. "
+        "The transition from savings accounts to mutual funds is supported by steady monthly SIP flows, which remained resilient through market volatility.",
         body_style
     ))
-    
-    # Embed age pie chart or state bar chart
-    img_state_path = project_root / "eda_geographic_state_bar.png"
-    if img_state_path.exists():
-        story.append(Image(str(img_state_path), width=450, height=220))
-        story.append(Paragraph("Figure 4.2: Total Investment Inflows by State", subtitle_style))
-        
     story.append(PageBreak())
     
-    # ------------------ 5. MUTUAL FUND PERFORMANCE ANALYTICS (Page 11-12) ------------------
-    story.append(Paragraph("5. Mutual Fund Performance Analytics", h1_style))
+    # ------------------ EDA: GEOGRAPHIC & STATE INFLOWS (Page 9) ------------------
+    story.append(Paragraph("EDA: Geographic & State Inflows", h1_style))
     story.append(Paragraph(
-        "We evaluated performance using the compound annual growth rate (CAGR), standard deviation (annualized volatility), Sharpe ratio (annualized risk-adjusted excess returns), and Sortino ratio (downside deviation risk-adjusted return).",
+        "Analyzing transaction data geographically shows that mutual fund investment is concentrated in major states. "
+        "This reflects differences in financial literacy, disposable income, and urbanization.",
         body_style
     ))
-    story.append(Spacer(1, 10))
-    story.append(Paragraph("Top 5 Mutual Funds Ranked by Performance Scorecard:", h2_style))
+    
+    # Embed state bar chart
+    img_state_path = project_root / "reports" / "charts" / "eda_geographic_state_bar.png"
+    if img_state_path.exists():
+        story.append(Spacer(1, 5))
+        story.append(Image(str(img_state_path), width=420, height=200))
+        story.append(Paragraph("Figure 5.2: Total Investment Inflows by State (INR Crores)", subtitle_style))
+        story.append(Spacer(1, 5))
+        
+    story.append(Paragraph(
+        "<b>State Inflow Distribution:</b><br/>"
+        "Maharashtra leads in transaction volume, followed by Gujarat, Karnataka, Delhi, and Tamil Nadu. "
+        "This concentration suggests that marketing and expansion efforts should target Tier-2 and Tier-3 cities in other states to promote broader financial inclusion.",
+        body_style
+    ))
+    story.append(PageBreak())
+    
+    # ------------------ EDA: DEMOGRAPHIC & TRANSACTION SPLITS (Page 10) ------------------
+    story.append(Paragraph("EDA: Demographic & Transaction Splits", h1_style))
+    story.append(Paragraph(
+        "Demographic analysis shows that retail participation is concentrated in the younger working population. "
+        "The 18-25 and 26-35 age groups have the highest transaction frequency, though their average ticket sizes are smaller than older age groups.",
+        body_style
+    ))
+    
+    # Embed age or gender chart
+    img_gender_path = project_root / "reports" / "charts" / "eda_demographics_age_pie.png"
+    if img_gender_path.exists():
+        story.append(Spacer(1, 5))
+        story.append(Image(str(img_gender_path), width=300, height=180))
+        story.append(Paragraph("Figure 5.3: Age Group Distribution (Based on Transaction Count)", subtitle_style))
+        story.append(Spacer(1, 5))
+        
+    story.append(Paragraph(
+        "<b>Important Methodology Note on Demographic Metrics:</b><br/>"
+        "As noted in the code review, Figures 5.3 and the associated tables represent the <i>transaction count distribution</i> rather than unique investors. "
+        "A single investor can make multiple transactions (e.g. monthly SIPs). "
+        "Therefore, this chart reflects transaction activity and volume, showing that younger demographics transact more frequently, "
+        "even with smaller individual ticket sizes.",
+        body_style
+    ))
+    story.append(PageBreak())
+    
+    # ------------------ 6. MUTUAL FUND PERFORMANCE ANALYTICS (Page 11) ------------------
+    story.append(Paragraph("6. Mutual Fund Performance Analytics", h1_style))
+    story.append(Paragraph(
+        "We evaluated performance using compound annual growth rate (CAGR), annualized standard deviation (volatility), "
+        "Sharpe ratio (risk-adjusted excess returns), and Sortino ratio (downside deviation risk-adjusted return).",
+        body_style
+    ))
+    
+    story.append(Paragraph("<b>5-Year CAGR Calculation Limit & Correction:</b>", h2_style))
+    story.append(Paragraph(
+        "The historical NAV dataset spans from January 3, 2022 to May 29, 2026. This is approximately 4.4 years. "
+        "Because we do not have 5 full years of data, we cannot calculate a true 5-year CAGR. "
+        "To remain analytically accurate, we calculate and report the CAGR over the maximum available period of 4.4 years. "
+        "In our scripts and database columns, this is labeled as <code>cagr_max_available</code> (or <code>cagr_4_4yr</code>) rather than a 5-year CAGR, "
+        "to avoid presenting incorrect parameters.",
+        body_style
+    ))
+    
+    story.append(Paragraph("Performance Metrics Formulas:", h2_style))
+    story.append(Paragraph(
+        "• <b>CAGR:</b> $\\text{CAGR} = \\left(\\text{NAV}_{\\text{end}} / \\text{NAV}_{\\text{start}}\\right)^{\\frac{252}{n_{\\text{trading\\_days}}}} - 1$ (where 252 represents trading days).<br/>"
+        "• <b>Sharpe Ratio:</b> $\\text{Sharpe} = \\frac{\\text{Mean}(R_p - R_f)}{\\text{Std}(R_p)} \\times \\sqrt{252}$ (annualized using daily excess returns over risk-free rate $R_f = 6.5\\%$).<br/>"
+        "• <b>Sortino Ratio:</b> $\\text{Sortino} = \\frac{\\text{Mean}(R_p - R_f)}{\\text{Downside\\_Std}(R_p)} \\times \\sqrt{252}$ (where downside standard deviation is calculated using negative-return days only).",
+        body_style
+    ))
+    story.append(PageBreak())
+    
+    # ------------------ PERFORMANCE: SHARPE, SORTINO, ALPHA, BETA & DRAWDOWNS (Page 12) ------------------
+    story.append(Paragraph("Performance: Sharpe, Sortino, Alpha, Beta & Drawdowns", h1_style))
+    story.append(Paragraph(
+        "Using Nifty 100 as the market benchmark, we ran OLS regressions to calculate Alpha (annualized excess return) and Beta (systematic market risk). "
+        "We also calculated peak-to-trough Maximum Drawdowns for all 40 funds.",
+        body_style
+    ))
     
     # Load scorecard data
     try:
-        df_scorecard = pd.read_csv(project_root / "fund_scorecard.csv")
-        top_5_data = [["AMFI Code", "Scheme Name", "3Yr Return", "Sharpe", "Alpha", "Score (0-100)"]]
+        df_scorecard = pd.read_csv(project_root / "data" / "processed" / "fund_scorecard.csv")
+        top_5_data = [["Rank", "Scheme Name", "4.4Yr CAGR", "Sharpe", "Alpha", "Beta", "Max DD"]]
         for idx, row in df_scorecard.head(5).iterrows():
             top_5_data.append([
-                str(row['amfi_code']),
-                row['scheme_name'][:35] + "...",
-                f"{row['return_3yr_pct']:.2f}%",
+                str(row['scorecard_rank']),
+                row['scheme_name'][:30] + "...",
+                f"{row['cagr_5yr']*100:.1f}%", # max available
                 f"{row['sharpe_ratio']:.3f}",
                 f"{row['alpha']:.3f}",
-                f"{row['score']:.1f}"
+                f"{row['beta']:.3f}",
+                f"{row['max_drawdown']*100:.1f}%"
             ])
-        t_top5 = Table(top_5_data, colWidths=[70, 180, 60, 50, 50, 70])
+        t_top5 = Table(top_5_data, colWidths=[35, 175, 65, 50, 45, 45, 55])
         t_top5.setStyle(TableStyle([
             ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#1e3a8a")),
             ('TEXTCOLOR', (0,0), (-1,0), colors.white),
             ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
             ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#cbd5e1")),
             ('FONTNAME', (0,1), (-1,-1), 'Helvetica'),
-            ('FONTSIZE', (0,0), (-1,-1), 8),
-            ('BOTTOMPADDING', (0,0), (-1,-1), 5),
-            ('TOPPADDING', (0,0), (-1,-1), 5),
+            ('FONTSIZE', (0,0), (-1,-1), 7.5),
+            ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+            ('TOPPADDING', (0,0), (-1,-1), 4),
         ]))
+        story.append(Paragraph("Top 5 Funds on Performance Scorecard (Composite Score):", h2_style))
         story.append(t_top5)
     except Exception as e:
-        story.append(Paragraph(f"Scorecard data not loaded: {e}", body_style))
+        story.append(Paragraph(f"Scorecard data could not be loaded: {e}", body_style))
         
-    story.append(Spacer(1, 15))
-    
-    # Embed benchmark comparison chart
-    img_bench_path = project_root / "benchmark_comparison_chart.png"
+    # Embed benchmark chart
+    img_bench_path = project_root / "reports" / "charts" / "benchmark_comparison_chart.png"
     if img_bench_path.exists():
-        story.append(Image(str(img_bench_path), width=450, height=220))
-        story.append(Paragraph("Figure 5.1: Top 5 Funds Cumulative Returns vs Nifty 50 and Nifty 100 (3 Years)", subtitle_style))
+        story.append(Spacer(1, 5))
+        story.append(Image(str(img_bench_path), width=420, height=190))
+        story.append(Paragraph("Figure 6.1: Top 5 Funds Cumulative Returns vs Nifty 50 and Nifty 100", subtitle_style))
+    story.append(PageBreak())
+    
+    # ------------------ 7. ADVANCED QUANTITATIVE RISK ANALYSIS (Page 13) ------------------
+    story.append(Paragraph("7. Advanced Quantitative Risk Analysis", h1_style))
+    story.append(Paragraph(
+        "To measure tail risk during market corrections, we calculated Value at Risk (VaR) and Conditional VaR (CVaR) using the Historical Simulation method.",
+        body_style
+    ))
+    story.append(Paragraph(
+        "<b>Value at Risk (95% Daily VaR):</b> Represents the 5th percentile of the daily return distribution, indicating the maximum expected daily loss with 95% confidence.<br/>"
+        "<b>Conditional VaR (95% Daily CVaR):</b> Measures the average loss on days when returns fall below the 95% VaR threshold, capturing tail risk.",
+        body_style
+    ))
+    
+    # Embed scorecard snippet or VaR table
+    try:
+        df_var = pd.read_csv(project_root / "data" / "processed" / "var_cvar_report.csv").head(6)
+        var_data = [["AMFI Code", "Scheme Name", "Category", "95% Daily VaR", "95% Daily CVaR"]]
+        for idx, row in df_var.iterrows():
+            var_data.append([
+                str(row['amfi_code']),
+                row['scheme_name'][:30] + "...",
+                row['category'],
+                f"{row['var_95_pct']:.2f}%",
+                f"{row['cvar_95_pct']:.2f}%"
+            ])
+        t_var = Table(var_data, colWidths=[65, 175, 75, 75, 80])
+        t_var.setStyle(TableStyle([
+            ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#1e3a8a")),
+            ('TEXTCOLOR', (0,0), (-1,0), colors.white),
+            ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
+            ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#cbd5e1")),
+            ('FONTNAME', (0,1), (-1,-1), 'Helvetica'),
+            ('FONTSIZE', (0,0), (-1,-1), 8),
+            ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+            ('TOPPADDING', (0,0), (-1,-1), 4),
+        ]))
+        story.append(Paragraph("Daily Value at Risk & CVaR (Tail Risk Leaders):", h2_style))
+        story.append(t_var)
+    except Exception as e:
+        story.append(Paragraph(f"VaR report could not be loaded: {e}", body_style))
         
     story.append(PageBreak())
     
-    # ------------------ 6. ADVANCED QUANTITATIVE RISK ANALYSIS (Page 13-14) ------------------
-    story.append(Paragraph("6. Advanced Quantitative Risk Analysis", h1_style))
+    # ------------------ ADVANCED: SECTOR HHI CONCENTRATION & COHORT ANALYSIS (Page 14) ------------------
+    story.append(Paragraph("Advanced: Sector HHI Concentration & Cohorts", h1_style))
     story.append(Paragraph(
-        "Advanced analysis examines tail risk (Value at Risk and Conditional VaR) to quantify potential losses in a volatile market environment. "
-        "Additionally, herfindahl-hirschman index (HHI) was computed to assess sector concentration risk across equity funds.",
+        "We calculated the Herfindahl-Hirschman Index (HHI) across sectors for all equity funds to measure portfolio concentration risk: "
+        "$\\text{HHI} = \\sum w_i^2$, where $w_i$ is the percentage weight of sector $i$. "
+        "A higher HHI indicates a concentrated portfolio, increasing sensitivity to sector-specific shocks.",
         body_style
     ))
     
     # Embed rolling Sharpe plot
-    img_sharpe_path = project_root / "rolling_sharpe_chart.png"
+    img_sharpe_path = project_root / "reports" / "charts" / "rolling_sharpe_chart.png"
     if img_sharpe_path.exists():
-        story.append(Spacer(1, 10))
-        story.append(Image(str(img_sharpe_path), width=450, height=220))
-        story.append(Paragraph("Figure 6.1: Rolling 90-Day Sharpe Ratio Comparison Over Time", subtitle_style))
-        story.append(Spacer(1, 10))
+        story.append(Spacer(1, 5))
+        story.append(Image(str(img_sharpe_path), width=420, height=200))
+        story.append(Paragraph("Figure 7.1: Rolling 90-Day Sharpe Ratio over time", subtitle_style))
+        story.append(Spacer(1, 5))
         
     story.append(Paragraph(
-        "Value at Risk (VaR) at 95% indicates that SBI Small Cap Fund exhibits a -2.12% daily loss threshold, showing high tail risk. "
-        "However, this is compensated by its strong alpha generation of 2.45% against Nifty 100. "
-        "In contrast, HDFC Money Market Fund shows low risk (VaR: -0.05%) but high sector HHI concentration (3,124).",
+        "<b>Investor Cohort and Attrition Findings:</b><br/>"
+        "• Cohort analysis (grouped by first transaction year) shows that the 2024 cohort invested ₹17.65 Crore, favoring index funds, while the 2025 cohort invested ₹11.23 Crore, favoring small-cap schemes.<br/>"
+        "• Gaps between transactions for active SIP accounts average over 35 days for 97.8% of long-term investors. This suggests high payment friction or mandate cancellation risks, requiring automated reminder systems.",
         body_style
     ))
     story.append(PageBreak())
     
-    # ------------------ 7. INTERACTIVE DASHBOARD DESIGN (Page 15) ------------------
-    story.append(Paragraph("7. Interactive Dashboard Design", h1_style))
+    # ------------------ 8. INTERACTIVE DASHBOARD DESIGN (Page 15) ------------------
+    story.append(Paragraph("8. Interactive Dashboard Design", h1_style))
     story.append(Paragraph(
-        "To replace traditional reporting, we built a premium custom Flask and HTML/JS/CSS interactive web dashboard (dashboard/server.py) organized into 4 analytical tabs:",
+        "While a template <code>bluestock_mf_dashboard.pbix</code> is provided for ODBC connection mapping, a custom-engineered web dashboard (<code>dashboard/server.py</code> + <code>templates/index.html</code>) was built as the primary interactive submission to ensure a cross-platform, rich analytics experience. It is organized into 4 analytical tabs:",
         body_style
     ))
-    story.append(Paragraph("1. <b>Industry Overview:</b> Provides macro-level statistics including industry AUM growth, monthly SIP trends, and AMC market shares.", bullet_style))
-    story.append(Paragraph("2. <b>Fund Performance:</b> Shows an interactive Risk-Return scatter plot and a sortable scorecard table. Slicers filter by fund house, category, and plan.", bullet_style))
-    story.append(Paragraph("3. <b>Investor Analytics:</b> Details demographic breakdowns (transactions by state, city tier splits, age profiles) using interactive bar and pie charts.", bullet_style))
-    story.append(Paragraph("4. <b>SIP & Market Trends:</b> Combines monthly SIP inflows with the Nifty 50 close price to identify sentiment correlations.", bullet_style))
-    story.append(Paragraph("• <b>Intelligent Recommender:</b> Integrated a rule-based engine in the dashboard that recommends the top 3 funds by Sharpe ratio within a selected risk appetite.", bullet_style))
+    story.append(Paragraph("1. <b>Industry Overview:</b> Displays top-level KPIs (Total AUM, monthly SIP volume, folio counts) alongside industry-wide AUM growth trends and AMC market shares.", bullet_style))
+    story.append(Paragraph("2. <b>Fund Performance:</b> Features an interactive risk-return bubble chart and a sortable performance table. Select a row to update comparison lines for NAV vs. Nifty 50.", bullet_style))
+    story.append(Paragraph("3. <b>Investor Analytics:</b> Maps transaction splits, state-level inflows, age-group average ticket sizes, and monthly volumes.", bullet_style))
+    story.append(Paragraph("4. <b>SIP & Market Trends:</b> Correlates monthly SIP inflows with the Nifty 50 index, visualizes monthly net category flows using a heatmap, and integrates the fund recommendation form.", bullet_style))
+    
+    # Embed dashboard screenshots
+    img_dash_path = project_root / "reports" / "charts" / "dashboard_page_1.png"
+    if img_dash_path.exists():
+        story.append(Spacer(1, 5))
+        story.append(Image(str(img_dash_path), width=420, height=200))
+        story.append(Paragraph("Figure 8.1: Interactive Web Dashboard (Industry Overview Tab)", subtitle_style))
     story.append(PageBreak())
     
-    # ------------------ 8. LIMITATIONS & RECOMMENDATIONS (Page 16-17) ------------------
-    story.append(Paragraph("8. Limitations, Conclusions & Recommendations", h1_style))
+    # ------------------ 9. LIMITATIONS, CONCLUSIONS & RECOMMENDATIONS (Page 16) ------------------
+    story.append(Paragraph("9. Limitations, Conclusions & Recommendations", h1_style))
     story.append(Paragraph(
-        "<b>Limitations identified:</b><br/>"
-        "• Historical data covers a period of approximately 4.4 years, which does not encompass multiple macro interest rate cycles.<br/>"
-        "• The investor transactions dataset contains a high attrition risk (97.8% showing gaps > 35 days), which may indicate data collection discrepancies or failed bank mandates.<br/>"
-        "• The benchmark comparisons are restricted to Nifty 50 and Nifty 100, which are large-cap indices, presenting benchmark mismatch for mid and small cap funds.",
+        "<b>Methodological Limitations:</b><br/>"
+        "• <b>CAGR Calculation Limit:</b> Historical NAV records cover 4.4 years, which is shorter than a full 5-year cycle. CAGR results should be interpreted as maximum available period annualized rates.<br/>"
+        "• <b>KYC and SIP Mandate Attrition:</b> The high percentage of at-risk SIP accounts (97.8% showing gaps > 35 days) suggests bank mandate failures or data collection gaps, requiring systematic monitoring.<br/>"
+        "• <b>Benchmark Casing Mismatch:</b> Large-cap indices (Nifty 50 and Nifty 100) are used as benchmarks, which may not capture the risk characteristics of mid and small-cap schemes.",
         body_style
     ))
-    story.append(Spacer(1, 10))
+    story.append(Spacer(1, 5))
     story.append(Paragraph("<b>Conclusions & Recommendations:</b>", h2_style))
-    story.append(Paragraph("1. <b>Enhance SIP Reminders:</b> AMCs must address the 97.8% 'at-risk' investor gaps. Automate payment alerts via SMS, Whatsapp, and email around the SIP date.", bullet_style))
-    story.append(Paragraph("2. <b>Diversify High-Concentration Portfolios:</b> Portfolios like HDFC Money Market should reduce financial sector weights (currently HHI > 3000) to protect against systemic sector shocks.", bullet_style))
-    story.append(Paragraph("3. <b>Deploy Automated ETL fetches:</b> Maintain the scheduled weekday 8 PM cron job (schedule_etl.py) to fetch live NAVs from mfapi.in, ensuring database tables are always current.", bullet_style))
+    story.append(Paragraph("1. <b>Automate SIP Reminders:</b> Address the 97.8% 'at-risk' investor gaps by scheduling automated payment reminders via SMS, WhatsApp, and email 3 days before the debit date.", bullet_style))
+    story.append(Paragraph("2. <b>Manage Concentration Risk:</b> High-HHI portfolios (e.g. HDFC Money Market with HHI > 3100) should reduce exposure to the financial sector to mitigate systematic risk.", bullet_style))
+    story.append(Paragraph("3. <b>Deploy Automated ETL Scheduler:</b> Maintain the scheduled weekday 8 PM cron job (<code>schedule_etl.py</code>) to fetch live NAVs from <code>mfapi.in</code>, keeping the database updated.", bullet_style))
     story.append(PageBreak())
     
-    # ------------------ 9. APPENDIX: SQL QUERIES (Page 18-20) ------------------
-    story.append(Paragraph("9. Appendix: SQL Queries", h1_style))
+    # ------------------ 10. APPENDIX: ANALYTICAL SQL QUERIES (Page 17) ------------------
+    story.append(Paragraph("10. Appendix: Analytical SQL Queries", h1_style))
     story.append(Paragraph(
         "Below are samples of the analytical SQL queries defined in <code>sql/queries.sql</code> to inspect AUM, NAV, and transactions.",
         body_style
     ))
     
-    query_sample = """
--- Query: Top 5 funds by AUM
+    query_sample_1 = """
+-- Query 1: Top 5 funds by AUM
 SELECT amfi_code, scheme_name, aum_crore
 FROM fact_performance 
 ORDER BY aum_crore DESC 
 LIMIT 5;
 
--- Query: Average NAV per month for each scheme
+-- Query 2: Average NAV per month for each scheme
 SELECT amfi_code, strftime('%Y-%m', date) AS month, ROUND(AVG(nav), 4) AS avg_nav 
 FROM fact_nav 
 GROUP BY amfi_code, month 
 LIMIT 3;
+
+-- Query 3: YoY Growth in monthly SIP Inflow
+SELECT month, sip_inflow_crore, yoy_growth_pct 
+FROM monthly_sip_inflows 
+ORDER BY month 
+LIMIT 5;
     """
-    story.append(Paragraph(query_sample.replace("\n", "<br/>").replace(" ", "&nbsp;"), code_style))
+    story.append(Paragraph(query_sample_1.replace("\n", "<br/>").replace(" ", "&nbsp;"), code_style))
+    story.append(PageBreak())
+    
+    # ------------------ APPENDIX: ADDITIONAL SQL SCRIPTS (Page 18) ------------------
+    story.append(Paragraph("Appendix: Additional SQL Queries", h1_style))
+    story.append(Paragraph(
+        "Below are additional analytical queries to check investor transaction volumes and sector concentration details:",
+        body_style
+    ))
+    
+    query_sample_2 = """
+-- Query 4: Total transaction counts and volume by state
+SELECT state, COUNT(*) AS txn_count, SUM(amount_inr) AS total_volume_inr 
+FROM fact_transactions 
+GROUP BY state 
+ORDER BY total_volume_inr DESC 
+LIMIT 3;
+
+-- Query 5: Schemes with an expense ratio below 1.0%
+SELECT amfi_code, scheme_name, expense_ratio_pct 
+FROM fact_performance 
+WHERE expense_ratio_pct < 1.0 
+ORDER BY expense_ratio_pct ASC;
+
+-- Query 6: Stock allocations with a portfolio weight greater than 10%
+SELECT amfi_code, stock_symbol, stock_name, weight_pct 
+FROM portfolio_holdings 
+WHERE weight_pct > 10.0 
+ORDER BY weight_pct DESC;
+    """
+    story.append(Paragraph(query_sample_2.replace("\n", "<br/>").replace(" ", "&nbsp;"), code_style))
     story.append(Spacer(1, 20))
-    story.append(Paragraph("End of Report. Bluestock Mutual Fund Analytics Capstone © 2026.", subtitle_style))
+    story.append(Paragraph("End of Report. Bluestock Mutual Fund Analytics Capstone © 2026. All rights reserved.", subtitle_style))
     
     # Build Document
     doc.build(story)
@@ -537,24 +742,23 @@ def generate_pptx():
 
     # Slide 5: EDA - AUM Growth
     slide = prs.slides.add_slide(blank_slide_layout)
-    # Add title manually
     txBox = slide.shapes.add_textbox(Inches(0.5), Inches(0.2), Inches(9), Inches(1))
     tf = txBox.text_frame
     tf.text = "EDA Highlight: Industry AUM Growth"
     set_font(tf.paragraphs[0].runs[0], font_name='Arial', size=Pt(24), bold=True, color=royal_blue)
     
-    img_path = project_root / "eda_total_aum_growth.png"
+    img_path = project_root / "reports" / "charts" / "eda_total_aum_growth.png"
     if img_path.exists():
         slide.shapes.add_picture(str(img_path), Inches(1), Inches(1.2), width=Inches(8), height=Inches(4.5))
 
-    # Slide 6: EDA - Demographics
+    # Slide 6: EDA - Geographic
     slide = prs.slides.add_slide(blank_slide_layout)
     txBox = slide.shapes.add_textbox(Inches(0.5), Inches(0.2), Inches(9), Inches(1))
     tf = txBox.text_frame
     tf.text = "EDA Highlight: Investor Inflow by State"
     set_font(tf.paragraphs[0].runs[0], font_name='Arial', size=Pt(24), bold=True, color=royal_blue)
     
-    img_path = project_root / "eda_geographic_state_bar.png"
+    img_path = project_root / "reports" / "charts" / "eda_geographic_state_bar.png"
     if img_path.exists():
         slide.shapes.add_picture(str(img_path), Inches(1), Inches(1.2), width=Inches(8), height=Inches(4.5))
 
@@ -588,7 +792,7 @@ def generate_pptx():
     tf.text = "Performance: Top Funds vs Benchmark (3 Years)"
     set_font(tf.paragraphs[0].runs[0], font_name='Arial', size=Pt(24), bold=True, color=royal_blue)
     
-    img_path = project_root / "benchmark_comparison_chart.png"
+    img_path = project_root / "reports" / "charts" / "benchmark_comparison_chart.png"
     if img_path.exists():
         slide.shapes.add_picture(str(img_path), Inches(1), Inches(1.2), width=Inches(8), height=Inches(4.5))
 
@@ -621,11 +825,11 @@ def generate_pptx():
     tf.text = "Advanced: Rolling 90-Day Sharpe Ratio"
     set_font(tf.paragraphs[0].runs[0], font_name='Arial', size=Pt(24), bold=True, color=royal_blue)
     
-    img_path = project_root / "rolling_sharpe_chart.png"
+    img_path = project_root / "reports" / "charts" / "rolling_sharpe_chart.png"
     if img_path.exists():
         slide.shapes.add_picture(str(img_path), Inches(1), Inches(1.2), width=Inches(8), height=Inches(4.5))
 
-    # Slide 11: Interactive Dashboard (Flask & HTML/JS/CSS Web App)
+    # Slide 11: Interactive Dashboard
     slide = prs.slides.add_slide(bullet_slide_layout)
     shapes = slide.shapes
     shapes.title.text = "Premium Interactive Web Dashboard"
