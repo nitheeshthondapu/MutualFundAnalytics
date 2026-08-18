@@ -16,8 +16,7 @@ def main():
     
     print(f"Creating clean submission zip at: {zip_path}")
     
-    # Excluded directories and file patterns
-    exclude_dirs = {'.git', '__pycache__', '.venv', '.idea', '.vscode', '.agents', '.gemini'}
+    exclude_dirs = {'__pycache__', '.venv', '.idea', '.vscode', '.agents', '.gemini', '.ipynb_checkpoints'}
     exclude_extensions = {'.pyc', '.pyo', '.db-journal'}
     
     with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
